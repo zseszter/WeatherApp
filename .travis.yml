@@ -1,7 +1,7 @@
 language: android
 android:
   components:
-  - build-tools-29.023
+  - build-tools-29.0.2
   - android-29
   - android-21
   - add-on
@@ -14,8 +14,22 @@ android:
   - addon-google_apis-google-28
   - sys-img-armeabi-v7a-android-21
 
+env:
+  global:
+    - MALLOC_ARENA_MAX=2
+
+sudo: required
+
 before_install:
   - yes | sdkmanager "platforms;android-29"
+
+before_script:
+  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a -s "768x1280"
+  - emulator -avd test -no-audio -no-window &
+  - adb wait-for-device
+  - adb shell input keyevent 82 &
+
+script: ./gradlew :app:build :app:connectedDebugAndroidTest
 
 deploy:
   provider: releases
@@ -31,17 +45,3 @@ notifications:
     - zsuborieszter@gmail.com
     on_success: always
     on_failure: always
-
-env:
-  global:
-    - MALLOC_ARENA_MAX=2
-
-sudo: required
-
-before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a -s "768x1280"
-  - emulator -avd test -no-audio -no-window &
-  - adb wait-for-device
-  - adb shell input keyevent 82 &
-
-script: ./gradlew :app:build :app:connectedDebugAndroidTest
