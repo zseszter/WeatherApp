@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -19,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -30,6 +35,20 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //dagger2
+    api 'com.google.dagger:dagger:2.24'
+    api 'com.google.dagger:dagger-android:2.24'
+    api 'com.google.dagger:dagger-android-support:2.24'
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
+    kapt 'com.google.dagger:dagger-compiler:2.24'
+
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.24'
+    kapt 'com.google.dagger:dagger-android-processor:2.24'
+
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    implementation 'javax.inject:javax.inject:1'
 }
 repositories {
     mavenCentral()
