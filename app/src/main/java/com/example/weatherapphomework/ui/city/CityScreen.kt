@@ -1,4 +1,4 @@
-package com.example.weatherapphomework.city
+package com.example.weatherapphomework.ui.city
 
 interface CityScreen {
     fun updateCityList()

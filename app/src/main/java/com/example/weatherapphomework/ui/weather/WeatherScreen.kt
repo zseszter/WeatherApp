@@ -1,4 +1,4 @@
-package com.example.weatherapphomework.weather
+package com.example.weatherapphomework.ui.weather
 
 interface WeatherScreen {
 

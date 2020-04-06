@@ -1,24 +1,31 @@
-package com.example.weatherapphomework.weather
+package com.example.weatherapphomework.ui.weather
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherapphomework.R
+import com.example.weatherapphomework.weatherInjector
+import javax.inject.Inject
 
 class WeatherActivity : AppCompatActivity(), WeatherScreen {
+
+    @Inject
+    lateinit var weatherPresenter: WeatherPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
+        weatherInjector.inject(this)
+        weatherPresenter.attachScreen(this)
     }
 
     override fun onStart() {
         super.onStart()
-        WeatherPresenter.attachScreen(this)
+        weatherPresenter.attachScreen(this)
     }
 
     override fun onStop() {
         super.onStop()
-        WeatherPresenter.detachScreen()
+        weatherPresenter.detachScreen()
     }
 
     override fun showCityName(name: String) {

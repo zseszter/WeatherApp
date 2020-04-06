@@ -1,4 +1,4 @@
-package com.example.weatherapphomework
+package com.example.weatherapphomework.ui
 
 abstract class Presenter<S> {
     protected var screen: S? = null
