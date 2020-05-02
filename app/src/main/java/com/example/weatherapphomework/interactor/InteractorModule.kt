@@ -1,5 +1,6 @@
 package com.example.weatherapphomework.interactor
 
+import com.example.weatherapphomework.network.WeatherApi
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -8,10 +9,10 @@ import javax.inject.Singleton
 class InteractorModule {
     @Provides
     @Singleton
-    fun provideCityInteractor() = CityInteractor()
+    fun provideCityInteractor(weatherApi: WeatherApi) = CityInteractor(weatherApi)
 
     @Provides
     @Singleton
-    fun provideWeatherInteractor() = WeatherInteractor()
+    fun provideWeatherInteractor(weatherApi: WeatherApi) = WeatherInteractor(weatherApi)
 }
 
