@@ -9,7 +9,8 @@ import retrofit2.http.Query
 interface WeatherApi {
 
     @GET("weather")
-    fun getCoordinatesByCity(@Query("q") cityName: String, @Query("appid") appid: String): Call<CoordinatesResult>
+    fun getCoordinatesByCity(@Query("q") cityName: String,
+                             @Query("appid") appid: String): Call<CoordinatesResult>
 
     @GET("onecall")
     fun getWeatherByCoordinates(@Query("lat") latitudes: Double,

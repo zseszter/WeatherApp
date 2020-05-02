@@ -9,7 +9,7 @@ import org.greenrobot.eventbus.EventBus
 
 class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi){
 
-    fun getWeatherList(lat: Double, lon: Double) {
+    fun getWeatherInfo(lat: Double, lon: Double) {
 
         val event = GetWeatherEvent()
 
