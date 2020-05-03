@@ -15,7 +15,7 @@ interface WeatherDao {
     fun getAllCities(): List<CityEntity>
 
     @Query("SELECT * FROM cities WHERE cityName=:name")
-    fun getCityIdByName(name: String?): Long?
+    fun getCityIdByName(name: String?): Long
 
     @Insert(onConflict = REPLACE)
     fun addCity(cityEntity: CityEntity): Long

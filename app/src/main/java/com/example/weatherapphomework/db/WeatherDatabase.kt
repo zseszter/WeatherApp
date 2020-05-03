@@ -2,6 +2,9 @@ package com.example.weatherapphomework.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.example.weatherapphomework.db.converters.DoubleListConverter
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.ForecastEntity
 import com.example.weatherapphomework.db.entities.WeatherInfoEntity
@@ -14,6 +17,9 @@ import com.example.weatherapphomework.db.entities.WeatherInfoEntity
             ForecastEntity::class,
             WeatherInfoEntity::class
         ]
+)
+@TypeConverters(
+        DoubleListConverter::class
 )
 abstract class WeatherDatabase: RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
