@@ -11,9 +11,9 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
+    UIModule::class,
     NetworkModule::class,
     DBModule::class,
-    UIModule::class,
     InteractorModule::class])
 interface WeatherApplicationComponent {
     fun inject(cityActivity: CityActivity)

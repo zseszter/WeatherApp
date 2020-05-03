@@ -19,4 +19,9 @@ class DBModule {
                 .fallbackToDestructiveMigration()
                 .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao = weatherDatabase.weatherDao()
+
 }
