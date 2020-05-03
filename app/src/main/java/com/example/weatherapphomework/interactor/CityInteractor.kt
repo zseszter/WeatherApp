@@ -2,7 +2,6 @@ package com.example.weatherapphomework.interactor
 
 import android.util.Log
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
-import com.example.weatherapphomework.interactor.event.GetWeatherEvent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import org.greenrobot.eventbus.EventBus
