@@ -6,12 +6,18 @@ import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.db.entities.ForecastEntity
 import com.example.weatherapphomework.db.entities.WeatherInfoEntity
 import com.example.weatherapphomework.interactor.event.GetWeatherEvent
+import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import javax.inject.Inject
 import org.greenrobot.eventbus.EventBus
 
 class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao){
+
+    //Dummy
+    fun getDummyWeatherInfo(dummyItem: DummyContent): DummyContent {
+        return dummyItem
+    }
 
     fun getWeatherInfo(lat: Double, lon: Double) {
 
@@ -43,5 +49,4 @@ class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, 
             EventBus.getDefault().post(event)
         }
     }
-
 }

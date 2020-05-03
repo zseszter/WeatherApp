@@ -4,12 +4,18 @@ import android.util.Log
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
+import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {
+
+    //Dummy
+    fun getDummyCoordinates(item: DummyContent): DummyContent {
+        return item
+    }
 
     fun getCoordinates(cityName: String) {
 

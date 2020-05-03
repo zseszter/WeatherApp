@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherapphomework.R
 import com.example.weatherapphomework.cityInjector
+import com.example.weatherapphomework.model.DummyContent
 import javax.inject.Inject
 
 class CityActivity : AppCompatActivity(), CityScreen {
@@ -29,7 +30,16 @@ class CityActivity : AppCompatActivity(), CityScreen {
         cityPresenter.detachScreen()
     }
 
-    override fun updateCityList() {
+    //Dummy
+    override fun showDetails(item: DummyContent) {
+        TODO("not implemented")
+    }
+
+    override fun updateCityList(cityName: String?, lat: Double?, lon: Double?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showNetworkError(msg: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

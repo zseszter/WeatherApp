@@ -1,8 +1,11 @@
 package com.example.weatherapphomework.ui.weather
 
+import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.model.WeatherInfo
 
 interface WeatherScreen {
+
+    fun showDetails(item: DummyContent)
 
     fun showCityName(name: String)
 

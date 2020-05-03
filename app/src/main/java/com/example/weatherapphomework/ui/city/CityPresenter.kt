@@ -2,6 +2,7 @@ package com.example.weatherapphomework.ui.city
 
 import com.example.weatherapphomework.interactor.CityInteractor
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
+import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.ui.Presenter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -11,7 +12,15 @@ import javax.inject.Inject
 
 class CityPresenter @Inject constructor(private val executor: Executor, private val cityInteractor: CityInteractor) : Presenter<CityScreen>() {
 
-    override fun attachScreen(screen: CityScreen) {
+    fun showDetails(item: DummyContent) {
+        this.screen?.showDetails(item)
+    }
+
+    fun getDetails(item: DummyContent) {
+        showDetails(cityInteractor.getDummyCoordinates(item))
+    }
+
+    /*override fun attachScreen(screen: CityScreen) {
         super.attachScreen(screen)
         EventBus.getDefault().register(this)
     }
@@ -41,5 +50,5 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
                 }
             }
         }
-    }
+    }*/
 }
