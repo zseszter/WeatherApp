@@ -9,7 +9,7 @@ class MockWeatherDao: WeatherDao {
         TODO("not implemented")
     }
 
-    override fun getCityIdByName(name: String?): Long? {
+    override fun getCityIdByName(name: String?): Long {
         TODO("not implemented")
     }
 
