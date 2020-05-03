@@ -14,19 +14,22 @@ interface WeatherDao {
     @Query("SELECT * FROM cities")
     fun getAllCities(): List<CityEntity>
 
+    @Query("SELECT * FROM cities WHERE cityName=:name")
+    fun getCityIdByName(name: String?): Long?
+
     @Insert(onConflict = REPLACE)
-    fun addCity(cityEntity: CityEntity)
+    fun addCity(cityEntity: CityEntity): Long
 
     @Query("SELECT * FROM weatherInfo WHERE id=:id")
     fun getWeatherInfoByCityId(id: Int): WeatherInfoEntity
 
     @Insert(onConflict = REPLACE)
-    fun addWeatherInfo(weatherInfoEntity: WeatherInfoEntity)
+    fun addWeatherInfo(weatherInfoEntity: WeatherInfoEntity): Long
 
     @Query("SELECT * FROM forecast WHERE id=:id")
     fun getForecastByCityId(id: Int): ForecastEntity
 
     @Insert(onConflict = REPLACE)
-    fun addForecast(forecastEntity: ForecastEntity)
+    fun addForecast(forecastEntity: ForecastEntity): Long
 
 }

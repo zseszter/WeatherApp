@@ -1,5 +1,6 @@
 package com.example.weatherapphomework.model
 
 data class WeatherInfoResult(
-        var weatherInfoList: List<WeatherInfo>? = null
+        var currentWeatherInfo: WeatherInfo? = null,
+        var forecast: List<Double>? = null
 )

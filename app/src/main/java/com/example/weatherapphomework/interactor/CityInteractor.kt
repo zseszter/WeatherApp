@@ -1,13 +1,15 @@
 package com.example.weatherapphomework.interactor
 
 import android.util.Log
+import com.example.weatherapphomework.db.WeatherDao
+import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class CityInteractor @Inject constructor(private var weatherApi: WeatherApi) {
+class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {
 
     fun getCoordinates(cityName: String) {
 
@@ -27,6 +29,11 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi) {
             event.lat = response.body()?.lat
             event.lon = response.body()?.lon
             event.temperature = response.body()?.temperature
+
+            event.cityId = weatherDao.addCity(CityEntity(
+                    cityName = response.body()?.cityName,
+                    lat = response.body()?.lat,
+                    lon = response.body()?.lon))
 
             EventBus.getDefault().post(event)
         } catch (e: Exception) {

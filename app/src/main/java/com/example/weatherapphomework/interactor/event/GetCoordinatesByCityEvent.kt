@@ -4,6 +4,7 @@ import com.example.weatherapphomework.model.WeatherInfo
 
 data class GetCoordinatesByCityEvent(
         var code: Int = 0,
+        var cityId: Long = 0,
         var cityName: String? = null,
         var lat: Double? = null,
         var lon: Double? = null,

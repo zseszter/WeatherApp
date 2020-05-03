@@ -4,6 +4,7 @@ import com.example.weatherapphomework.model.WeatherInfo
 
 data class GetWeatherEvent(
         var code: Int = 0,
-        var weatherInfos: List<WeatherInfo>? = null,
+        var currentWeatherInfo: WeatherInfo? = null,
+        var forecast: List<Double>? = null,
         var throwable: Throwable? = null
 )
