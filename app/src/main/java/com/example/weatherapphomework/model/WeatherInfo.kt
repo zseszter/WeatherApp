@@ -1,4 +1,7 @@
 package com.example.weatherapphomework.model
 
-class WeatherInfo {
-}
+data class WeatherInfo(
+        var cityName: String? = null,
+        var temperature: Double? = null,
+        var weatherString: String? = null
+)

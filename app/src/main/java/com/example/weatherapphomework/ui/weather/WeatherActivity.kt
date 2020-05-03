@@ -3,6 +3,8 @@ package com.example.weatherapphomework.ui.weather
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherapphomework.R
+import com.example.weatherapphomework.model.DummyContent
+import com.example.weatherapphomework.model.WeatherInfo
 import com.example.weatherapphomework.weatherInjector
 import javax.inject.Inject
 
@@ -29,18 +31,31 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
     }
 
     override fun showCityName(name: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun showTemperature(temp: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun showWeatherImage(image: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun refreshWeatherInfo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
+    }
+
+    override fun showForecast(weatherInfos: List<WeatherInfo>?) {
+        TODO("not implemented")
+    }
+
+    override fun showNetworkError(msg: String?) {
+        TODO("not implemented")
+    }
+
+    //Dummy
+    override fun showDetails(item: DummyContent) {
+        TODO("not implemented")
     }
 }
