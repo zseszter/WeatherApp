@@ -8,6 +8,7 @@ data class CityEntity (
         @PrimaryKey(autoGenerate = true)
         val id: Long = 0,
         val cityName: String?,
+        val temperature: Double?,
         val lat: Double?,
         val lon: Double?
 )

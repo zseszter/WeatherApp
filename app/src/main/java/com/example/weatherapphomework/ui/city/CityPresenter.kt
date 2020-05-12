@@ -1,8 +1,9 @@
 package com.example.weatherapphomework.ui.city
 
 import com.example.weatherapphomework.interactor.CityInteractor
+import com.example.weatherapphomework.interactor.event.GetCities
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
-import com.example.weatherapphomework.model.DummyContent
+import com.example.weatherapphomework.model.City
 import com.example.weatherapphomework.ui.Presenter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -28,6 +29,12 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
         }
     }
 
+    fun getCityList() {
+        executor.execute{
+            cityInteractor.getCityList()
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventMainThread(event: GetCoordinatesByCityEvent) {
         if (event.throwable != null) {
@@ -38,7 +45,24 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
         } else {
             if (screen != null) {
                 if (event.lat != null && event.lon != null) {
-                    screen?.updateCityList(event.cityName, event.lat, event.lon)
+                    screen?.updateCityItem(event.cityName, event.lat, event.lon)
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventMainThread(event: GetCities) {
+        if (event.throwable != null) {
+            event.throwable?.printStackTrace()
+            if (screen != null) {
+                screen?.showNetworkError(event.throwable?.message.orEmpty())
+            }
+        } else {
+            if (screen != null) {
+                if (event.cityList != null) {
+                    var list: ArrayList<City>? = event.cityList
+                    screen?.getCities(list)
                 }
             }
         }

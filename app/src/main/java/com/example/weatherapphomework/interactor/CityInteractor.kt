@@ -3,7 +3,9 @@ package com.example.weatherapphomework.interactor
 import android.util.Log
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
+import com.example.weatherapphomework.interactor.event.GetCities
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
+import com.example.weatherapphomework.model.City
 import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
@@ -11,11 +13,6 @@ import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {
-
-    //Dummy
-    /*fun getDummyCoordinates(item: DummyContent): DummyContent {
-        return item
-    }*/
 
     fun getCoordinates(cityName: String) {
 
@@ -36,15 +33,33 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
             event.lon = response.body()?.lon
             event.temperature = response.body()?.temperature
 
-            event.cityId = weatherDao.addCity(CityEntity(
-                    cityName = response.body()?.cityName,
-                    lat = response.body()?.lat,
-                    lon = response.body()?.lon))
+            event.cityId = weatherDao.getCityIdByName(cityName)
 
             EventBus.getDefault().post(event)
         } catch (e: Exception) {
             event.throwable = e
             EventBus.getDefault().post(event)
+        }
+    }
+
+    fun getCityList() {
+
+        val event = GetCities()
+
+        try {
+            var cityList: ArrayList<City>? = null
+            var cityEntityList = weatherDao.getAllCities()
+
+            cityEntityList.forEach {
+                cityList?.add(City(it.cityName, it.temperature))
+            }
+
+            event.cityList = cityList
+
+            EventBus.getDefault().post(event)
+        } catch (e: Exception) {
+            event.throwable = e
+            EventBus.getDefault().post((event))
         }
     }
 }
