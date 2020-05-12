@@ -13,9 +13,9 @@ import javax.inject.Inject
 class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {
 
     //Dummy
-    fun getDummyCoordinates(item: DummyContent): DummyContent {
+    /*fun getDummyCoordinates(item: DummyContent): DummyContent {
         return item
-    }
+    }*/
 
     fun getCoordinates(cityName: String) {
 

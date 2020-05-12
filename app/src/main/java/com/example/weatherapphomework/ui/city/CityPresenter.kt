@@ -12,15 +12,7 @@ import javax.inject.Inject
 
 class CityPresenter @Inject constructor(private val executor: Executor, private val cityInteractor: CityInteractor) : Presenter<CityScreen>() {
 
-    fun showDetails(item: DummyContent) {
-        this.screen?.showDetails(item)
-    }
-
-    fun getDetails(item: DummyContent) {
-        showDetails(cityInteractor.getDummyCoordinates(item))
-    }
-
-    /*override fun attachScreen(screen: CityScreen) {
+    override fun attachScreen(screen: CityScreen) {
         super.attachScreen(screen)
         EventBus.getDefault().register(this)
     }
@@ -50,5 +42,5 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
                 }
             }
         }
-    }*/
+    }
 }

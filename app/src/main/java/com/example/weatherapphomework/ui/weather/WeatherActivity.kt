@@ -46,16 +46,11 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         TODO("not implemented")
     }
 
-    override fun showForecast(weatherInfos: List<WeatherInfo>?) {
+    override fun showForecast(forcast: List<Double>?) {
         TODO("not implemented")
     }
 
     override fun showNetworkError(msg: String?) {
-        TODO("not implemented")
-    }
-
-    //Dummy
-    override fun showDetails(item: DummyContent) {
         TODO("not implemented")
     }
 }

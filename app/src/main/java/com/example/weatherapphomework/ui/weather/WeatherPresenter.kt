@@ -13,15 +13,7 @@ import javax.inject.Inject
 
 class WeatherPresenter @Inject constructor(private val executor: Executor, private val weatherInteractor: WeatherInteractor) : Presenter<WeatherScreen>() {
 
-    fun showDetails(item: DummyContent) {
-        this.screen?.showDetails(item)
-    }
-
-    fun getDetails(item: DummyContent) {
-        showDetails(weatherInteractor.getDummyWeatherInfo(item))
-    }
-
-    /*override fun attachScreen(screen: WeatherScreen) {
+    override fun attachScreen(screen: WeatherScreen) {
         super.attachScreen(screen)
         EventBus.getDefault().register(this)
     }
@@ -46,10 +38,10 @@ class WeatherPresenter @Inject constructor(private val executor: Executor, priva
             }
         } else {
             if (screen != null) {
-                if (event.weatherInfos != null) {
-                    screen?.showForecast(event.weatherInfos as MutableList<WeatherInfo>)
+                if (event.forecast != null) {
+                    screen?.showForecast(event.forecast as MutableList<Double>)
                 }
             }
         }
-    }*/
+    }
 }

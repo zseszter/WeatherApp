@@ -14,11 +14,6 @@ import org.greenrobot.eventbus.EventBus
 
 class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao){
 
-    //Dummy
-    fun getDummyWeatherInfo(dummyItem: DummyContent): DummyContent {
-        return dummyItem
-    }
-
     fun getWeatherInfo(lat: Double, lon: Double) {
 
         val event = GetWeatherEvent()

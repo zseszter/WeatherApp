@@ -30,11 +30,6 @@ class CityActivity : AppCompatActivity(), CityScreen {
         cityPresenter.detachScreen()
     }
 
-    //Dummy
-    override fun showDetails(item: DummyContent) {
-        TODO("not implemented")
-    }
-
     override fun updateCityList(cityName: String?, lat: Double?, lon: Double?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
