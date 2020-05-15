@@ -3,8 +3,6 @@ package com.example.weatherapphomework.ui.weather
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherapphomework.R
-import com.example.weatherapphomework.model.DummyContent
-import com.example.weatherapphomework.model.WeatherInfo
 import com.example.weatherapphomework.weatherInjector
 import javax.inject.Inject
 

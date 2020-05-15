@@ -1,7 +1,5 @@
 package com.example.weatherapphomework.interactor.event
 
-import com.example.weatherapphomework.model.WeatherInfo
-
 data class GetCoordinatesByCityEvent(
         var code: Int = 0,
         var cityId: Long = 0,

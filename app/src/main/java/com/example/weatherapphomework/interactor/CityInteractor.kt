@@ -2,11 +2,9 @@ package com.example.weatherapphomework.interactor
 
 import android.util.Log
 import com.example.weatherapphomework.db.WeatherDao
-import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.interactor.event.GetCities
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
 import com.example.weatherapphomework.model.City
-import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import org.greenrobot.eventbus.EventBus
@@ -28,10 +26,10 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
             }
 
             event.code = response.code()
-            event.cityName = response.body()?.cityName
-            event.lat = response.body()?.lat
-            event.lon = response.body()?.lon
-            event.temperature = response.body()?.temperature
+            event.cityName = response.body()?.name
+           // event.lat = response.body()?.lat
+           // event.lon = response.body()?.lon
+           // event.temperature = response.body()?.temp
 
             event.cityId = weatherDao.getCityIdByName(cityName)
 
@@ -51,7 +49,7 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
             var cityEntityList = weatherDao.getAllCities()
 
             cityEntityList.forEach {
-                cityList?.add(City(it.cityName, it.temperature))
+           //     cityList?.add(City(it.cityName, it.temperature))
             }
 
             event.cityList = cityList

@@ -2,8 +2,6 @@ package com.example.weatherapphomework.ui.weather
 
 import com.example.weatherapphomework.interactor.WeatherInteractor
 import com.example.weatherapphomework.interactor.event.GetWeatherEvent
-import com.example.weatherapphomework.model.DummyContent
-import com.example.weatherapphomework.model.WeatherInfo
 import com.example.weatherapphomework.ui.Presenter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

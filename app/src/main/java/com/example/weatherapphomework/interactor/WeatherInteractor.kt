@@ -6,7 +6,6 @@ import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.db.entities.ForecastEntity
 import com.example.weatherapphomework.db.entities.WeatherInfoEntity
 import com.example.weatherapphomework.interactor.event.GetWeatherEvent
-import com.example.weatherapphomework.model.DummyContent
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import javax.inject.Inject
@@ -29,14 +28,14 @@ class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, 
 
             event.code = response.code()
             event.currentWeatherInfo = response.body().currentWeatherInfo
-            event.forecast = response.body()?.forecast
+            event.forecast = response.body()?.daily
 
             val cityId = weatherDao.getCityIdByName(response.body()?.currentWeatherInfo?.cityName)
             val temp = response.body()?.currentWeatherInfo?.temperature
             val weatherString = response.body()?.currentWeatherInfo?.weatherString
 
             weatherDao.addWeatherInfo(WeatherInfoEntity(cityId = cityId, temperature = temp, weatherString = weatherString))
-            weatherDao.addForecast(ForecastEntity(cityId = cityId, forecast = Forecast(response.body()?.forecast)))
+            weatherDao.addForecast(ForecastEntity(cityId = cityId, forecast = Forecast(response.body()?.daily)))
 
             EventBus.getDefault().post(event)
         } catch (e: Exception) {

@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Module
 class DBModule {
     companion object {
-        private const val DB_NAME = "weather-info"
+        private const val DB_NAME = "weatherInfo-info"
     }
 
     @Provides
