@@ -26,7 +26,7 @@ interface WeatherDao {
     @Insert(onConflict = REPLACE)
     fun addWeatherInfo(weatherInfoEntity: WeatherInfoEntity): Long
 
-    @Query("SELECT * FROM daily WHERE id=:id")
+    @Query("SELECT * FROM forecast WHERE id=:id")
     fun getForecastByCityId(id: Int): ForecastEntity
 
     @Insert(onConflict = REPLACE)

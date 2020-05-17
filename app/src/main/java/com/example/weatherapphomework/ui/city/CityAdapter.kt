@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapphomework.R
 import com.example.weatherapphomework.model.City
@@ -14,7 +14,11 @@ import kotlinx.android.synthetic.main.city_list_item.view.*
 
 class CityAdapter constructor(
         private val context: Context,
-        private val cities: ArrayList<City>) : RecyclerView.Adapter<CityAdapter.ViewHolder>() {
+        private val listener: Listener) : ListAdapter<City, CityAdapter.ViewHolder>(CityComparator()) {
+
+    interface Listener {
+        fun onItemClicked(cityName: String)
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.city_list_item, viewGroup, false)
@@ -22,18 +26,17 @@ class CityAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val city = cities[position]
+        val city = getItem(position)
 
         holder.cityName.text = city.name
-        holder.temperature.text = city.temperature!!.toString() + " °C"
+        holder.temperature.text = "${city.temperature?.toString()} °C"
 
         holder.card.setOnClickListener {
-            Toast.makeText(context,"Btn clicked",Toast.LENGTH_SHORT).show()
+            city.name?.let {
+                listener.onItemClicked(it)
+            }
         }
     }
-
-    override fun getItemCount() = cities.size
-    //override fun getItemCount() = 10
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var card: CardView = view.cityCard

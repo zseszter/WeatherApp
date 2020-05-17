@@ -9,7 +9,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
-class WeatherPresenter @Inject constructor(private val executor: Executor, private val weatherInteractor: WeatherInteractor) : Presenter<WeatherScreen>() {
+class WeatherPresenter @Inject constructor(private val weatherInteractor: WeatherInteractor) : Presenter<WeatherScreen>() {
 
     override fun attachScreen(screen: WeatherScreen) {
         super.attachScreen(screen)
@@ -21,13 +21,11 @@ class WeatherPresenter @Inject constructor(private val executor: Executor, priva
         super.detachScreen()
     }
 
-    fun refreshWeatherInfo(lat: Double, lon: Double) {
-        executor.execute {
+    suspend fun refreshWeatherInfo(lat: Double, lon: Double) {
             weatherInteractor.getWeatherInfo(lat, lon)
-        }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventMainThread(event: GetWeatherEvent) {
         if (event.throwable != null) {
             event.throwable?.printStackTrace()
@@ -41,5 +39,5 @@ class WeatherPresenter @Inject constructor(private val executor: Executor, priva
                 }
             }
         }
-    }
+    }*/
 }

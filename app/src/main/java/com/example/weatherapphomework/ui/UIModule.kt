@@ -19,11 +19,11 @@ class UIModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun cityPresenter(executor: Executor, cityInteractor: CityInteractor) = CityPresenter(executor, cityInteractor)
+    fun cityPresenter(cityInteractor: CityInteractor, weatherInteractor: WeatherInteractor) = CityPresenter(cityInteractor, weatherInteractor)
 
     @Provides
     @Singleton
-    fun weatherPresenter(executor: Executor, weatherInteractor: WeatherInteractor) = WeatherPresenter(executor, weatherInteractor)
+    fun weatherPresenter(weatherInteractor: WeatherInteractor) = WeatherPresenter(weatherInteractor)
 
     @Provides
     @Singleton
