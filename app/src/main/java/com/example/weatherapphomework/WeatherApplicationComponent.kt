@@ -14,7 +14,8 @@ import javax.inject.Singleton
     UIModule::class,
     NetworkModule::class,
     DBModule::class,
-    InteractorModule::class])
+    InteractorModule::class]
+)
 interface WeatherApplicationComponent {
     fun inject(cityActivity: CityActivity)
     fun inject(weatherActivity: WeatherActivity)

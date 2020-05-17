@@ -19,7 +19,7 @@ class CityActivity : AppCompatActivity(), CityScreen {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private var cities: ArrayList<City>? = null
+    private var cities: ArrayList<City> = arrayListOf(City("London", 14.5))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class CityActivity : AppCompatActivity(), CityScreen {
         cityPresenter.attachScreen(this)
         cityPresenter.getCityList()
 
-        viewManager = LinearLayoutManager(this)
+        viewManager = LinearLayoutManager(this) as RecyclerView.LayoutManager
         viewAdapter = CityAdapter(this, cities)
 
         recyclerView = findViewById<RecyclerView>(R.id.cityList).apply {
@@ -56,7 +56,7 @@ class CityActivity : AppCompatActivity(), CityScreen {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCities(cityList: ArrayList<City>?) {
+    override fun getCities(cityList: ArrayList<City>) {
         cities = cityList
     }
 }

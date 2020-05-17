@@ -8,7 +8,7 @@ interface CityScreen {
 
     fun updateCityItem(cityName: String?, lat: Double?, lon: Double?)
 
-    fun getCities(cityList: ArrayList<City>?);
+    fun getCities(cityList: ArrayList<City>);
 
     fun showNetworkError(msg: String)
 }

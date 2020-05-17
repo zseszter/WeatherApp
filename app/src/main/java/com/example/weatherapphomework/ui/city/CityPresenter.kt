@@ -15,7 +15,9 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
 
     override fun attachScreen(screen: CityScreen) {
         super.attachScreen(screen)
-        EventBus.getDefault().register(this)
+        if (!EventBus.getDefault().isRegistered(this)) {
+                    EventBus.getDefault().register(this)
+                }
     }
 
     override fun detachScreen() {

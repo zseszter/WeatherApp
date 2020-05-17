@@ -3,7 +3,7 @@ package com.example.weatherapphomework.ui.weather
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherapphomework.R
-import com.example.weatherapphomework.weatherInjector
+import com.example.weatherapphomework.injector
 import javax.inject.Inject
 
 class WeatherActivity : AppCompatActivity(), WeatherScreen {
@@ -14,7 +14,7 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-        weatherInjector.inject(this)
+        injector.inject(this)
         weatherPresenter.attachScreen(this)
     }
 
