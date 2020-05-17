@@ -32,4 +32,7 @@ interface WeatherDao {
     @Insert(onConflict = REPLACE)
     fun addForecast(forecastEntity: ForecastEntity): Long
 
+    @Query("SELECT * FROM cities WHERE lat=:lat AND lon=:lon")
+    fun getCityIdByCoordinates(lat: Double, lon: Double): Long
+
 }

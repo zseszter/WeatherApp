@@ -51,7 +51,7 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventMainThread(event: GetCities) {
         if (event.throwable != null) {
             event.throwable?.printStackTrace()
@@ -66,5 +66,5 @@ class CityPresenter @Inject constructor(private val executor: Executor, private 
                 }
             }
         }
-    }
+    }*/
 }

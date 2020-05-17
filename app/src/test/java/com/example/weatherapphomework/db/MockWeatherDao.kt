@@ -5,6 +5,10 @@ import com.example.weatherapphomework.db.entities.ForecastEntity
 import com.example.weatherapphomework.db.entities.WeatherInfoEntity
 
 class MockWeatherDao: WeatherDao {
+    override fun getCityIdByCoordinates(lat: Double, lon: Double): Long {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getAllCities(): List<CityEntity> {
         TODO("not implemented")
     }

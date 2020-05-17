@@ -27,17 +27,22 @@ class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, 
             }
 
             event.code = response.code()
-            event.currentWeatherInfo = response.body().currentWeatherInfo
-            event.forecast = response.body()?.daily
+            event.currentWeatherInfo = response.body().current
 
-            val cityId = weatherDao.getCityIdByName(response.body()?.currentWeatherInfo?.cityName)
-            val temp = response.body()?.currentWeatherInfo?.temperature
-            val weatherString = response.body()?.currentWeatherInfo?.weatherString
+            var forecastList: ArrayList<Double?>? = null
 
-            weatherDao.addWeatherInfo(WeatherInfoEntity(cityId = cityId, temperature = temp, weatherString = weatherString))
-            weatherDao.addForecast(ForecastEntity(cityId = cityId, forecast = Forecast(response.body()?.daily)))
+            response.body()?.daily?.forEach {
+                forecastList?.add(it.temp?.day)
+            }
+
+            event.forecast = forecastList
+
+            var cityId = weatherDao.getCityIdByCoordinates(lat, lon)
+            weatherDao.addWeatherInfo(WeatherInfoEntity(cityId = cityId, temperature = response.body().current?.temp, weatherString = response.body().current?.weather?.description))
+            weatherDao.addForecast(ForecastEntity(cityId = cityId, forecast = Forecast(forecastList)))
 
             EventBus.getDefault().post(event)
+
         } catch (e: Exception) {
             event.throwable = e
             EventBus.getDefault().post(event)

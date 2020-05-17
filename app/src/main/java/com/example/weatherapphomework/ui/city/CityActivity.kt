@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapphomework.R
-import com.example.weatherapphomework.cityInjector
+import com.example.weatherapphomework.injector
 import com.example.weatherapphomework.model.City
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class CityActivity : AppCompatActivity(), CityScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city)
-        cityInjector.inject(this)
+        injector.inject(this)
         cityPresenter.attachScreen(this)
         cityPresenter.getCityList()
 

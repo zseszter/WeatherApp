@@ -6,5 +6,5 @@ data class WeatherInfo(
         var temp: Double? = null,
         var humidity: Integer? = null,
         var wind_deg: Integer? = null,
-        var weatherInfo: WeatherStringInfo? = null
+        var weather: WeatherStringInfo? = null
 )
