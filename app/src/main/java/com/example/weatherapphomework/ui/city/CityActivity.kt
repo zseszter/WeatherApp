@@ -19,7 +19,7 @@ class CityActivity : AppCompatActivity(), CityScreen {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private var cities: ArrayList<City> = arrayListOf(City("London", 14.5))
+    private var cities: ArrayList<City> = arrayListOf(City("London", 14.5), City("Berlin", 12.0))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
