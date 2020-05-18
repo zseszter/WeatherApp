@@ -51,37 +51,3 @@ class CityPresenter @Inject constructor(private val cityInteractor: CityInteract
         cityInteractor.saveCity(cityName)
     }
 }
-
-/*@Subscribe(threadMode = ThreadMode.MAIN)
-fun onEventMainThread(event: GetCoordinatesByCityEvent) {
-   if (event.throwable != null) {
-       event.throwable?.printStackTrace()
-       if (screen != null) {
-           screen?.showNetworkError(event.throwable?.message.orEmpty())
-       }
-   } else {
-       if (screen != null) {
-           if (event.lat != null && event.lon != null) {
-               screen?.updateCityItem(event.cityName, event.lat, event.lon)
-           }
-       }
-   }
-}
-
-/* @Subscribe(threadMode = ThreadMode.MAIN)
-fun onEventMainThread(evenGetCities) {
-   if (event.throwable != null) {
-       event.throwable?.printStackTrace()
-       if (screen != null) {
-           screen?.showNetworkError(event.throwable?.message.orEmpty())
-       }
-   } else {
-       if (screen != null) {
-           if (event.cityList != null) {
-               var list: ArrayList<City>? = event.cityList
-
-               screen?.loadCities(list)
-           }
-       }
-   }
-}*/

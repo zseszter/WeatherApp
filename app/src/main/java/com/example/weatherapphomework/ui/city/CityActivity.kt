@@ -4,7 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapphomework.R
@@ -13,6 +16,9 @@ import com.example.weatherapphomework.model.City
 import com.example.weatherapphomework.model.WeatherInfoResult
 import com.example.weatherapphomework.model.info.CoordinateInfo
 import com.example.weatherapphomework.ui.weather.WeatherActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_city.*
+import kotlinx.android.synthetic.main.city_list.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,19 +44,37 @@ class CityActivity : AppCompatActivity(), CityScreen, CityAdapter.Listener {
 
         cityPresenter.attachScreen(this)
 
-        viewManager = LinearLayoutManager(this) as RecyclerView.LayoutManager
+        //viewManager = LinearLayoutManager(this) as RecyclerView.LayoutManager
         cityAdapter = CityAdapter(this, this)
-        //cityList.adapter = cityAdapter
+        cityList.adapter = cityAdapter
 
-        recyclerView = findViewById<RecyclerView>(R.id.cityList).apply {
+        /*recyclerView = findViewById<RecyclerView>(R.id.cityList).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = cityAdapter
-        }
+        }*/
+
+        fab.setOnClickListener {v -> fabOnClickListener(fab) }
 
         MainScope().launch {
-            cityPresenter.saveCity("Amsterdam")
             cityPresenter.getCityList()
+        }
+    }
+
+    private fun fabOnClickListener(view: View) {
+        with(AlertDialog.Builder(view.context)) {
+            setTitle("Add a new city")
+            val layout = layoutInflater.inflate(R.layout.add_city_dialog, null)
+            val addCityEditText = layout.findViewById<EditText>(R.id.addCity_ET)
+            setView(layout)
+            setNegativeButton("Cancel", null)
+            setPositiveButton("Add") { _, _ ->
+                MainScope().launch {
+                    cityPresenter.saveCity(addCityEditText.text.toString())
+                    cityPresenter.getCityList()
+                }
+            }
+            show()
         }
     }
 
