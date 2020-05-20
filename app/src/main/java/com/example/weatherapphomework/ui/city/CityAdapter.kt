@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapphomework.R
 import com.example.weatherapphomework.model.City
 import kotlinx.android.synthetic.main.city_list_item.view.*
+import java.math.RoundingMode
 
 class CityAdapter constructor(
         private val context: Context,
@@ -28,8 +29,10 @@ class CityAdapter constructor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val city = getItem(position)
 
+        val temp = city.temperature!!.plus(CityActivity.KELVIN_CONST).toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
+
         holder.cityName.text = city.name
-        holder.temperature.text = "${city.temperature?.toString()} °C"
+        holder.temperature.text = "${temp.toString()} °C"
 
         holder.card.setOnClickListener {
             city.name?.let {

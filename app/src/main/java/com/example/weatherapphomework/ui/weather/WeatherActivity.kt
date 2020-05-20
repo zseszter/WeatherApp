@@ -9,12 +9,14 @@ import androidx.appcompat.app.AlertDialog
 import com.example.weatherapphomework.R
 import com.example.weatherapphomework.injector
 import com.example.weatherapphomework.model.info.ForecastInfo
+import com.example.weatherapphomework.ui.city.CityActivity
 import com.example.weatherapphomework.ui.city.CityActivity.Companion.CITY_NAME_KEY
 import com.example.weatherapphomework.ui.city.CityActivity.Companion.LAT_KEY
 import com.example.weatherapphomework.ui.city.CityActivity.Companion.LON_KEY
 import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import java.math.RoundingMode
 import javax.inject.Inject
 
 class WeatherActivity : AppCompatActivity(), WeatherScreen {
@@ -58,7 +60,10 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
 
     override fun showTemperature(temp: Double?) {
         runOnUiThread {
-            if (temp != null) temperature_tv?.text = temp.toString()
+            if (temp != null) {
+                val roundedTemp = temp.plus(CityActivity.KELVIN_CONST).toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
+                temperature_tv?.text = roundedTemp.toString()
+            }
         }
     }
 

@@ -44,10 +44,10 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
                 val weatherResult = weatherApi.getWeatherByCoordinates(coordResult.coord?.lat!!, coordResult.coord?.lon!!, NetworkConfig.API_KEY)
 
                 val forecast = weatherResult.daily?.map {
-                    it.temp?.day
+                    it.temp?.day!!
                 }
 
-                weatherDao.addCity(CityEntity(name = cityName, temperature = weatherResult.current?.temp, weatherString = weatherResult.current?.weather?.get(0)?.description, lat = coordResult.coord?.lat, lon = coordResult.coord?.lon, forecast = Forecast(forecast)))
+                weatherDao.addCity(CityEntity(name = cityName, temperature = weatherResult.current?.temp!!, weatherString = weatherResult.current?.weather?.get(0)?.description, lat = coordResult.coord?.lat, lon = coordResult.coord?.lon, forecast = Forecast(forecast)))
 
             } else {
                 weatherDao.addCity(CityEntity(name = cityName))

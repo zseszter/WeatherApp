@@ -34,6 +34,7 @@ class CityActivity : AppCompatActivity(), CityScreen, CityAdapter.Listener {
         const val LAT_KEY = "LAT_KEY"
         const val LON_KEY = "LON_KEY"
         const val CITY_NAME_KEY = "CITY_NAME_KEY"
+        const val KELVIN_CONST = -272.15
     }
 
     var context = this
