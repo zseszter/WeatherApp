@@ -2,21 +2,15 @@ package com.example.weatherapphomework.interactor
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.util.Log
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.Forecast
-import com.example.weatherapphomework.interactor.event.GetCities
-import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
-import com.example.weatherapphomework.model.City
 import com.example.weatherapphomework.model.CoordinatesResult
 import com.example.weatherapphomework.model.info.CoordinateInfo
 import com.example.weatherapphomework.model.info.MainWeatherInfo
 import com.example.weatherapphomework.model.info.WeatherStringInfo
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {

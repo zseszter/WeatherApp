@@ -1,18 +1,10 @@
 package com.example.weatherapphomework.ui.weather
 
 import android.content.Context
-import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapphomework.interactor.WeatherInteractor
-import com.example.weatherapphomework.interactor.event.GetWeatherEvent
-import com.example.weatherapphomework.model.WeatherInfoResult
 import com.example.weatherapphomework.ui.Presenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
-import java.util.concurrent.Executor
 import javax.inject.Inject
 
 class WeatherPresenter @Inject constructor(private val weatherInteractor: WeatherInteractor) : Presenter<WeatherScreen>() {

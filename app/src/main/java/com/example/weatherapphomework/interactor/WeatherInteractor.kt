@@ -2,9 +2,6 @@ package com.example.weatherapphomework.interactor
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.util.Log
-import android.widget.Toast
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.Forecast

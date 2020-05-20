@@ -3,12 +3,10 @@ package com.example.weatherapphomework
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.room.Embedded
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.interactor.CityInteractor
-import com.example.weatherapphomework.model.City
 import com.example.weatherapphomework.model.CoordinatesResult
 import com.example.weatherapphomework.model.WeatherInfoResult
 import com.example.weatherapphomework.model.info.*

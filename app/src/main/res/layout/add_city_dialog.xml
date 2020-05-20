@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/city_name"
         android:textSize="24sp"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:inputType="text"/>
 </LinearLayout>

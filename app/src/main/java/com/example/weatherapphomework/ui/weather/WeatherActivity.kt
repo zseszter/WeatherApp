@@ -13,7 +13,6 @@ import com.example.weatherapphomework.ui.city.CityActivity.Companion.CITY_NAME_K
 import com.example.weatherapphomework.ui.city.CityActivity.Companion.LAT_KEY
 import com.example.weatherapphomework.ui.city.CityActivity.Companion.LON_KEY
 import kotlinx.android.synthetic.main.activity_weather.*
-import kotlinx.android.synthetic.main.city_list_item.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -96,7 +95,7 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         }
     }
 
-    fun showNetworkError() {
+    private fun showNetworkError() {
         with(AlertDialog.Builder(context)) {
             setTitle("No internet connection")
             setMessage("The most recently retrieved data will be displayed")

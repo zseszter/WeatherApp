@@ -1,23 +1,15 @@
 package com.example.weatherapphomework.ui.city
 
 import android.content.Context
-import android.net.ConnectivityManager
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.interactor.CityInteractor
 import com.example.weatherapphomework.interactor.WeatherInteractor
-import com.example.weatherapphomework.interactor.event.GetCities
-import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
 import com.example.weatherapphomework.model.City
 import com.example.weatherapphomework.model.info.CoordinateInfo
 import com.example.weatherapphomework.ui.Presenter
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
-import java.util.concurrent.Executor
 import javax.inject.Inject
 
 class CityPresenter @Inject constructor(private val cityInteractor: CityInteractor,

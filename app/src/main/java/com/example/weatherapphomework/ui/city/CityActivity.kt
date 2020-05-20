@@ -94,7 +94,7 @@ class CityActivity : AppCompatActivity(), CityScreen, CityAdapter.Listener {
         cityPresenter.detachScreen()
     }
 
-    fun showNetworkError() {
+    private fun showNetworkError() {
         with(AlertDialog.Builder(context)) {
             setTitle("No internet connection")
             setMessage("The most recently retrieved data will be displayed")

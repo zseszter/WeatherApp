@@ -1,7 +1,6 @@
 package com.example.weatherapphomework
 
 import android.content.Context
-import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.interactor.WeatherInteractor
 import com.example.weatherapphomework.model.WeatherInfoResult
 import com.example.weatherapphomework.model.info.ForecastInfo
