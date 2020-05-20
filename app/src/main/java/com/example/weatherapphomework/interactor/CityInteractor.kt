@@ -36,7 +36,8 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
         return response
     }
 
-    suspend fun getCityList() : List<CityEntity> {
+    //suspend might be missing
+    fun getCityList() : List<CityEntity> {
         return weatherDao.getAllCities().map {
             CityEntity(it.id, it.name, it.temperature)
         }
@@ -62,7 +63,8 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
         }
     }
 
-    suspend fun updateCity(city: CityEntity) {
+    //suspend might be missing
+    fun updateCity(city: CityEntity) {
         weatherDao.updateCity(city)
     }
 

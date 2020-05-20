@@ -29,7 +29,7 @@ class MockWeatherDao: WeatherDao {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCityByCoordinates(lat: Double, lon: Double): CityEntity {
+    override fun getCityByCoordinates(lat: Double, lon: Double): List<CityEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

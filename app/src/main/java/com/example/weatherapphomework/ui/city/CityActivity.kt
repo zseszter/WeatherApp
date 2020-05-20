@@ -62,7 +62,7 @@ class CityActivity : AppCompatActivity(), CityScreen, CityAdapter.Listener {
         //get all cities from DB
         MainScope().launch {
             cityPresenter.refreshCityList(context)
-            cityPresenter.getCityList()
+            cityPresenter.getCities()
         }
     }
 
@@ -77,7 +77,7 @@ class CityActivity : AppCompatActivity(), CityScreen, CityAdapter.Listener {
             setPositiveButton("Add") { _, _ ->
                 MainScope().launch {
                     cityPresenter.saveCity(context, addCityEditText.text.toString())
-                    cityPresenter.getCityList()
+                    cityPresenter.getCities()
                 }
             }
             show()

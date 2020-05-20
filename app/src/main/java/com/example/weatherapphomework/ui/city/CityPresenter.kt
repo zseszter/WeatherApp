@@ -32,7 +32,6 @@ class CityPresenter @Inject constructor(private val cityInteractor: CityInteract
     }
 
     suspend fun showWeatherDetails(context: Context, cityName: String) = withContext(Dispatchers.IO) {
-
         val coordResult = cityInteractor.getCoordinates(context, cityName)
         screen?.showDetails(cityName, CoordinateInfo(coordResult.coord?.lat, coordResult.coord?.lon))
     }
@@ -52,7 +51,7 @@ class CityPresenter @Inject constructor(private val cityInteractor: CityInteract
         }
     }
 
-    suspend fun getCityList() = withContext(Dispatchers.IO) {
+    suspend fun getCities() = withContext(Dispatchers.IO) {
 
         val cityEntityList = cityInteractor.getCityList()
         val cities = ArrayList<City>()

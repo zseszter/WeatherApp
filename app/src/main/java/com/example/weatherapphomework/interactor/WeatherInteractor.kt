@@ -22,36 +22,28 @@ class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, 
     suspend fun getWeatherInfo(context: Context, cityName: String, lat: Double, lon: Double) : WeatherInfoResult {
 
         val response: WeatherInfoResult
-        Log.d("ASDASD", "coordinates: $lat, $lon")
+        //Log.d("ASDASD", "coordinates: $lat, $lon")
         val cityResult = weatherDao.getCityByName(cityName)
-        Log.d("ASDASD", "result: " + cityResult.toString())
+        //Log.d("ASDASD", "result: " + cityResult.toString())
 
-        //if (cityListResult?.size == 1) {
+        if (isOnline(context)) {
+            response = weatherApi.getWeatherByCoordinates(lat, lon, NetworkConfig.API_KEY)
 
-            //val cityResult = cityListResult.get(0)
-
-            if (isOnline(context)) {
-                response = weatherApi.getWeatherByCoordinates(lat, lon, NetworkConfig.API_KEY)
-
-                val forecast = response.daily?.map {
-                    it.temp?.day
-                }
-
-                weatherDao.updateCity(CityEntity(cityResult.id, cityResult.name, response.current?.temp, response.current?.weather?.get(0)?.description, lat, lon, forecast = Forecast(forecast)))
-
-            } else {
-
-                val forecastTempList: ArrayList<ForecastInfo> = ArrayList()
-                cityResult.forecast?.forecastList?.forEach {
-                    forecastTempList.add(ForecastInfo(null, TemperatureInfo(it), WeatherStringInfo(cityResult.weatherString)))
-                }
-
-                response = WeatherInfoResult(lat, lon, WeatherInfo(temp = cityResult.temperature, weather = listOf(WeatherStringInfo(cityResult.weatherString))), daily = forecastTempList)
+            val forecast = response.daily?.map {
+                it.temp?.day
             }
-        //} else {
-        //    response = WeatherInfoResult(null, null, null, null)
-        //}
 
+            weatherDao.updateCity(CityEntity(cityResult.id, cityResult.name, response.current?.temp, response.current?.weather?.get(0)?.description, lat, lon, forecast = Forecast(forecast)))
+
+        } else {
+
+            val forecastTempList: ArrayList<ForecastInfo> = ArrayList()
+            cityResult.forecast?.forecastList?.forEach {
+                forecastTempList.add(ForecastInfo(null, TemperatureInfo(it), WeatherStringInfo(cityResult.weatherString)))
+            }
+
+            response = WeatherInfoResult(lat, lon, WeatherInfo(temp = cityResult.temperature, weather = listOf(WeatherStringInfo(cityResult.weatherString))), daily = forecastTempList)
+        }
 
         return response
     }
