@@ -32,8 +32,10 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         val lat: Double? = intent.extras?.getDouble(LAT_KEY)
         val lon: Double? = intent.extras?.getDouble(LON_KEY)
 
+        val context = this
+
         MainScope().launch {
-            weatherPresenter.refreshWeatherInfo(lat, lon)
+            weatherPresenter.refreshWeatherInfo(context, lat, lon)
         }
     }
 
@@ -64,6 +66,7 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
                 "clear sky" -> img = R.drawable.clear
                 "few clouds" -> img = R.drawable.cloud
                 "scattered clouds" -> img = R.drawable.cloud
+                "overcast clouds" -> img = R.drawable.cloud
                 "broken clouds" -> img = R.drawable.cloud
                 "shower rain" -> img = R.drawable.rain
                 "rain" -> img = R.drawable.rain

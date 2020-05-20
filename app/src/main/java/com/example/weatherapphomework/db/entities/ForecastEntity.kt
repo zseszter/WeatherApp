@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 data class ForecastEntity (
         @PrimaryKey(autoGenerate = true)
         val id: Long = 0,
-        val cityId: Long?,
+        val cityId: Long? = null,
 
         @Embedded
-        val forecast: Forecast?
+        val forecast: Forecast? = null
 )

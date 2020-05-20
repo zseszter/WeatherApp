@@ -10,7 +10,7 @@ import com.example.weatherapphomework.db.entities.WeatherInfoEntity
 
 @Database(
         exportSchema = false,
-        version = 2,
+        version = 3,
         entities = [
             CityEntity::class,
             ForecastEntity::class,

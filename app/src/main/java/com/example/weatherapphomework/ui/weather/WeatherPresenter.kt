@@ -1,5 +1,7 @@
 package com.example.weatherapphomework.ui.weather
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapphomework.interactor.WeatherInteractor
 import com.example.weatherapphomework.interactor.event.GetWeatherEvent
 import com.example.weatherapphomework.model.WeatherInfoResult
@@ -20,9 +22,9 @@ class WeatherPresenter @Inject constructor(private val weatherInteractor: Weathe
         super.detachScreen()
     }
 
-    suspend fun refreshWeatherInfo(lat: Double?, lon: Double?) {
+    suspend fun refreshWeatherInfo(context: Context, lat: Double?, lon: Double?) {
             if (lat != null && lon != null) {
-                var response = weatherInteractor.getWeatherInfo(lat, lon)
+                var response = weatherInteractor.getWeatherInfo(context, lat, lon)
                 screen?.showTemperature(response.current?.temp)
                 screen?.showWeatherImage(response.current?.weather?.get(0)?.description)
                 screen?.loadForecast(response.daily)

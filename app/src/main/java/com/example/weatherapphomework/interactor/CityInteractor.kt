@@ -38,7 +38,7 @@ class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, pri
 
     suspend fun saveCity(cityName: String) {
         try {
-            weatherDao.addCity(CityEntity(name=cityName, temperature = 10.2, lat=null, lon=null))
+            weatherDao.addCity(CityEntity(name=cityName, temperature = 10.2))
             //Log.d("ASDASD", weatherDao.getAllCities().toString())
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
