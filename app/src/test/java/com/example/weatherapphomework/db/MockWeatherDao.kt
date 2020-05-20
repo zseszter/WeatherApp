@@ -5,7 +5,11 @@ import com.example.weatherapphomework.db.entities.ForecastEntity
 import com.example.weatherapphomework.db.entities.WeatherInfoEntity
 
 class MockWeatherDao: WeatherDao {
-    override fun getCityIdByName(name: String?): Long {
+    override fun getAllCities(): List<CityEntity> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getCityByName(name: String?): CityEntity {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -25,11 +29,7 @@ class MockWeatherDao: WeatherDao {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCityIdByCoordinates(lat: Double, lon: Double): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getAllCities(): List<CityEntity> {
+    override fun getCityByCoordinates(lat: Double, lon: Double): CityEntity {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -1,11 +1,14 @@
 package com.example.weatherapphomework.ui.weather
 
 import android.content.Context
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapphomework.interactor.WeatherInteractor
 import com.example.weatherapphomework.interactor.event.GetWeatherEvent
 import com.example.weatherapphomework.model.WeatherInfoResult
 import com.example.weatherapphomework.ui.Presenter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -22,28 +25,13 @@ class WeatherPresenter @Inject constructor(private val weatherInteractor: Weathe
         super.detachScreen()
     }
 
-    suspend fun refreshWeatherInfo(context: Context, lat: Double?, lon: Double?) {
-            if (lat != null && lon != null) {
-                var response = weatherInteractor.getWeatherInfo(context, lat, lon)
-                screen?.showTemperature(response.current?.temp)
-                screen?.showWeatherImage(response.current?.weather?.get(0)?.description)
-                screen?.loadForecast(response.daily)
-            }
-    }
+    suspend fun refreshWeatherInfo(context: Context, name: String?, lat: Double?, lon: Double?) = withContext(Dispatchers.IO) {
 
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEventMainThread(event: GetWeatherEvent) {
-        if (event.throwable != null) {
-            event.throwable?.printStackTrace()
-            if (screen != null) {
-                screen?.showNetworkError(event.throwable?.message.orEmpty())
-            }
-        } else {
-            if (screen != null) {
-                if (event.forecast != null) {
-                    screen?.showForecast(event.forecast as MutableList<Double>)
-                }
-            }
+        if (lat != null && lon != null && name != null) {
+            val response = weatherInteractor.getWeatherInfo(context, name, lat, lon)
+            screen?.showTemperature(response.current?.temp)
+            screen?.showWeatherImage(response.current?.weather?.get(0)?.description)
+            screen?.loadForecast(response.daily)
         }
-    }*/
+    }
 }

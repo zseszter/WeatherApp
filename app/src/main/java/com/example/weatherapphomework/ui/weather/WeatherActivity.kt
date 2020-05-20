@@ -1,11 +1,17 @@
 package com.example.weatherapphomework.ui.weather
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.weatherapphomework.R
 import com.example.weatherapphomework.injector
 import com.example.weatherapphomework.model.info.ForecastInfo
+import com.example.weatherapphomework.ui.city.CityActivity.Companion.CITY_NAME_KEY
+import com.example.weatherapphomework.ui.city.CityActivity.Companion.LAT_KEY
+import com.example.weatherapphomework.ui.city.CityActivity.Companion.LON_KEY
 import kotlinx.android.synthetic.main.activity_weather.*
 import kotlinx.android.synthetic.main.city_list_item.*
 import kotlinx.coroutines.MainScope
@@ -17,10 +23,11 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
     @Inject
     lateinit var weatherPresenter: WeatherPresenter
 
-    companion object {
-        const val LAT_KEY = "LAT_KEY"
-        const val LON_KEY = "LON_KEY"
-    }
+    var lat: Double? = null
+    var lon: Double? = null
+    var cityName: String? = null
+
+    val context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +36,14 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
 
         weatherPresenter.attachScreen(this)
 
-        val lat: Double? = intent.extras?.getDouble(LAT_KEY)
-        val lon: Double? = intent.extras?.getDouble(LON_KEY)
+        if (!isOnline(this)) showNetworkError()
 
-        val context = this
+        lat = intent.extras?.getDouble(LAT_KEY)
+        lon = intent.extras?.getDouble(LON_KEY)
+        cityName = intent.extras?.getString(CITY_NAME_KEY)
 
         MainScope().launch {
-            weatherPresenter.refreshWeatherInfo(context, lat, lon)
+            weatherPresenter.refreshWeatherInfo(context, cityName, lat, lon)
         }
     }
 
@@ -49,13 +57,9 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         weatherPresenter.detachScreen()
     }
 
-    override fun showCityName(name: String) {
-        TODO("not implemented")
-    }
-
     override fun showTemperature(temp: Double?) {
         runOnUiThread {
-            if (temp != null) temp_tv?.text = temp.toString()
+            if (temp != null) temperature_tv?.text = temp.toString()
         }
     }
 
@@ -81,7 +85,9 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
     }
 
     override fun refreshWeatherInfo() {
-        TODO("not implemented")
+        MainScope().launch {
+            weatherPresenter.refreshWeatherInfo(context, cityName, lat, lon)
+        }
     }
 
     override fun loadForecast(forecast: List<ForecastInfo>?) {
@@ -90,7 +96,19 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         }
     }
 
-    override fun showNetworkError(msg: String?) {
-        TODO("not implemented")
+    fun showNetworkError() {
+        with(AlertDialog.Builder(context)) {
+            setTitle("No internet connection")
+            setMessage("The most recently retrieved data will be displayed")
+            setNegativeButton("Cancel", null)
+            setPositiveButton("Ok", null)
+            show()
+        }
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return capabilities != null
     }
 }

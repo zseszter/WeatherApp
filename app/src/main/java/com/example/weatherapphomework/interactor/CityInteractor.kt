@@ -1,11 +1,19 @@
 package com.example.weatherapphomework.interactor
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
+import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.interactor.event.GetCities
 import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
 import com.example.weatherapphomework.model.City
+import com.example.weatherapphomework.model.CoordinatesResult
+import com.example.weatherapphomework.model.info.CoordinateInfo
+import com.example.weatherapphomework.model.info.MainWeatherInfo
+import com.example.weatherapphomework.model.info.WeatherStringInfo
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import org.greenrobot.eventbus.EventBus
@@ -13,35 +21,54 @@ import javax.inject.Inject
 
 class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {
 
-    suspend fun getCoordinates(cityName: String) : GetCoordinatesByCityEvent {
+    suspend fun getCoordinates(context: Context, cityName: String) : CoordinatesResult {
 
-        val event = GetCoordinatesByCityEvent()
+        val response: CoordinatesResult
 
-        val response = weatherApi.getCoordinatesByCity(cityName, NetworkConfig.API_KEY)
+        if (isOnline(context)) {
+            response = weatherApi.getCoordinatesByCity(cityName, NetworkConfig.API_KEY)
 
-        event.cityName = response.name
-        event.lat = response.coord?.lat
-        event.lon = response.coord?.lon
-        event.temperature = response.main?.temp
+        } else {
+            val city = weatherDao.getCityByName(cityName)
+            response = CoordinatesResult(cityName, CoordinateInfo(city.lat, city.lon), listOf(WeatherStringInfo(city.weatherString)), MainWeatherInfo(city.temperature))
+        }
 
-        event.cityId = weatherDao.getCityIdByName(cityName)
-
-        return event
+        return response
     }
 
-    suspend fun getCityList() : List<City> {
-
+    suspend fun getCityList() : List<CityEntity> {
         return weatherDao.getAllCities().map {
-            City(it.name, it.temperature)
+            CityEntity(it.id, it.name, it.temperature)
         }
     }
 
-    suspend fun saveCity(cityName: String) {
+    suspend fun saveCity(context: Context, cityName: String) {
         try {
-            weatherDao.addCity(CityEntity(name=cityName, temperature = 10.2))
-            //Log.d("ASDASD", weatherDao.getAllCities().toString())
+            if (isOnline(context = context)) {
+                val coordResult = weatherApi.getCoordinatesByCity(cityName, NetworkConfig.API_KEY)
+                val weatherResult = weatherApi.getWeatherByCoordinates(coordResult.coord?.lat!!, coordResult.coord?.lon!!, NetworkConfig.API_KEY)
+
+                val forecast = weatherResult.daily?.map {
+                    it.temp?.day
+                }
+
+                weatherDao.addCity(CityEntity(name = cityName, temperature = weatherResult.current?.temp, weatherString = weatherResult.current?.weather?.get(0)?.description, lat = coordResult.coord?.lat, lon = coordResult.coord?.lon, forecast = Forecast(forecast)))
+
+            } else {
+                weatherDao.addCity(CityEntity(name = cityName))
+            }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+    }
+
+    suspend fun updateCity(city: CityEntity) {
+        weatherDao.updateCity(city)
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return capabilities != null
     }
 }

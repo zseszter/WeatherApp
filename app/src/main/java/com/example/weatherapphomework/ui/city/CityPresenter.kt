@@ -1,6 +1,9 @@
 package com.example.weatherapphomework.ui.city
 
 import android.content.Context
+import android.net.ConnectivityManager
+import com.example.weatherapphomework.db.entities.CityEntity
+import com.example.weatherapphomework.db.entities.Forecast
 import com.example.weatherapphomework.interactor.CityInteractor
 import com.example.weatherapphomework.interactor.WeatherInteractor
 import com.example.weatherapphomework.interactor.event.GetCities
@@ -28,26 +31,39 @@ class CityPresenter @Inject constructor(private val cityInteractor: CityInteract
         super.detachScreen()
     }
 
-    suspend fun refreshCityItem(cityName: String) = withContext(Dispatchers.IO) {
-        var coordResult = cityInteractor.getCoordinates(cityName)
-        /*if (coordResult.lat == null || coordResult.lon == null) {
-            //TODO
-        } else {
-            var weatherInfoResult = weatherInteractor.getWeatherInfo(coordResult.lat!!, coordResult.lon!!)
-            screen.showDetails(weatherInfoResult)
-        }*/
+    suspend fun showWeatherDetails(context: Context, cityName: String) = withContext(Dispatchers.IO) {
 
-        screen?.showDetails(CoordinateInfo(coordResult.lat, coordResult.lon))
+        val coordResult = cityInteractor.getCoordinates(context, cityName)
+        screen?.showDetails(cityName, CoordinateInfo(coordResult.coord?.lat, coordResult.coord?.lon))
+    }
 
+    suspend fun refreshCityList(context: Context) = withContext(Dispatchers.IO) {
+
+        val cityList = cityInteractor.getCityList()
+        cityList.forEach {
+            val coordResult = cityInteractor.getCoordinates(context, it.name!!)
+            val weatherResult = weatherInteractor.getWeatherInfo(context, it.name, coordResult.coord?.lat!!, coordResult.coord?.lon!!)
+
+            val forecast = weatherResult.daily?.map {
+                it.temp?.day
+            }
+
+            cityInteractor.updateCity(CityEntity(it.id, it.name, weatherResult.current?.temp, weatherResult.current?.weather?.get(0)?.description, coordResult.coord?.lat, coordResult.coord?.lon, forecast = Forecast(forecast)))
+        }
     }
 
     suspend fun getCityList() = withContext(Dispatchers.IO) {
-        var cityList = cityInteractor.getCityList()
-        screen?.loadCities(cityList)
 
+        val cityEntityList = cityInteractor.getCityList()
+        val cities = ArrayList<City>()
+        cityEntityList.forEach {
+            cities.add(City(it.name, it.temperature, it.weatherString, it.lat, it.lon, it.forecast))
+        }
+
+        screen?.loadCities(cities)
     }
 
-    suspend fun saveCity(cityName: String) = withContext(Dispatchers.IO) {
-        cityInteractor.saveCity(cityName)
+    suspend fun saveCity(context: Context, cityName: String) = withContext(Dispatchers.IO) {
+        cityInteractor.saveCity(context, cityName)
     }
 }

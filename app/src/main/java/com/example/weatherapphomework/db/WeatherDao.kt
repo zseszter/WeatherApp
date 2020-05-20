@@ -14,7 +14,7 @@ interface WeatherDao {
     fun getAllCities(): List<CityEntity>
 
     @Query("SELECT * FROM cities WHERE name=:name")
-    fun getCityIdByName(name: String?): Long
+    fun getCityByName(name: String?): CityEntity
 
     @Insert(onConflict = REPLACE)
     fun addCity(cityEntity: CityEntity): Long
@@ -25,13 +25,14 @@ interface WeatherDao {
     @Query("SELECT * FROM cities WHERE id=:id")
     fun getForecastByCityId(id: Long): CityEntity
 
-    @Update(onConflict = IGNORE)
+    @Update(onConflict = REPLACE)
     fun updateCity(cityEntity: CityEntity)
 
     /*Insert(onConflict = REPLACE)
     fun addForecast(forecastEntity: ForecastEntity): Long*/
 
     @Query("SELECT * FROM cities WHERE lat=:lat AND lon=:lon")
-    fun getCityIdByCoordinates(lat: Double, lon: Double): Long
+    fun getCityByCoordinates(lat: Double, lon: Double): List<CityEntity>?
+
 
 }

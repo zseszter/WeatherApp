@@ -9,5 +9,5 @@ data class CoordinatesResult(
         var coord: CoordinateInfo? = null,
         var weather: List<WeatherStringInfo>? = null,
         var main: MainWeatherInfo? = null,
-        var dt: Integer? = null
+        var dt: Int? = null
 )
