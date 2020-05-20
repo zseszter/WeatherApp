@@ -2,6 +2,7 @@ package com.example.weatherapphomework.ui.weather
 
 import com.example.weatherapphomework.interactor.WeatherInteractor
 import com.example.weatherapphomework.interactor.event.GetWeatherEvent
+import com.example.weatherapphomework.model.WeatherInfoResult
 import com.example.weatherapphomework.ui.Presenter
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -13,16 +14,19 @@ class WeatherPresenter @Inject constructor(private val weatherInteractor: Weathe
 
     override fun attachScreen(screen: WeatherScreen) {
         super.attachScreen(screen)
-        EventBus.getDefault().register(this)
     }
 
     override fun detachScreen() {
-        EventBus.getDefault().unregister(this)
         super.detachScreen()
     }
 
-    suspend fun refreshWeatherInfo(lat: Double, lon: Double) {
-            weatherInteractor.getWeatherInfo(lat, lon)
+    suspend fun refreshWeatherInfo(lat: Double?, lon: Double?) {
+            if (lat != null && lon != null) {
+                var response = weatherInteractor.getWeatherInfo(lat, lon)
+                screen?.showTemperature(response.current?.temp)
+                screen?.showWeatherImage(response.current?.weather?.get(0)?.description)
+                screen?.loadForecast(response.daily)
+            }
     }
 
     /*@Subscribe(threadMode = ThreadMode.MAIN)

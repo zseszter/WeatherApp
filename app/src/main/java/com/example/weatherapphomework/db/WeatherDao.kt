@@ -1,9 +1,7 @@
 package com.example.weatherapphomework.db
 
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.ForecastEntity
 import com.example.weatherapphomework.db.entities.WeatherInfoEntity
@@ -31,6 +29,9 @@ interface WeatherDao {
 
     @Insert(onConflict = REPLACE)
     fun addForecast(forecastEntity: ForecastEntity): Long
+
+    /*@Update(onConflict = REPLACE)
+    fun updateForecast(forecastEntity: ForecastEntity)*/
 
     @Query("SELECT * FROM cities WHERE lat=:lat AND lon=:lon")
     fun getCityIdByCoordinates(lat: Double, lon: Double): Long

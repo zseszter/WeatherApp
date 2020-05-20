@@ -98,21 +98,20 @@ class CityActivity : AppCompatActivity(), CityScreen, CityAdapter.Listener {
 
     override fun loadCities(cityList: List<City>) {
         runOnUiThread {
-            Toast.makeText(this,"loadCities called", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this,"loadCities called", Toast.LENGTH_SHORT).show()
             cityAdapter.submitList(cityList.distinctBy {it.name})
         }
     }
 
     override fun showDetails(coords: CoordinateInfo) {
         runOnUiThread{
-            Toast.makeText(this, coords.lat.toString(), Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, coords.lat.toString(), Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, WeatherActivity::class.java).apply {
+                putExtra(LAT_KEY, coords.lat)
+                putExtra(LON_KEY, coords.lon)
+            }
+            startActivity(intent)
         }
-
-        /*val intent = Intent(this, WeatherActivity::class.java).apply {
-            putExtra(LAT_KEY, coords.lat)
-            putExtra(LON_KEY, coords.lon)
-        }
-        startActivity(intent)*/
     }
 
     override fun onItemClicked(cityName: String) {

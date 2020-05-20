@@ -16,9 +16,9 @@ class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, 
 
     suspend fun getWeatherInfo(lat: Double, lon: Double) : WeatherInfoResult {
 
-        val response = weatherApi.getWeatherByCoordinates(lat, lon, NetworkConfig.API_KEY)
+        return weatherApi.getWeatherByCoordinates(lat, lon, NetworkConfig.API_KEY)
 
-        var forecastList = response.daily?.map {
+        /*var forecastList = response.daily?.map {
             it.temp?.day
         }
 
@@ -26,6 +26,6 @@ class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, 
         weatherDao.addWeatherInfo(WeatherInfoEntity(cityId = cityId, temperature = response.current?.temp, weatherString = response.current?.weather?.description))
         weatherDao.addForecast(ForecastEntity(cityId = cityId, forecast = Forecast(forecastList)))
 
-        return response
+        return response*/
     }
 }

@@ -5,11 +5,12 @@ import com.example.weatherapphomework.model.WeatherInfoResult
 import retrofit2.Call
 
 class MockWeatherApi: WeatherApi {
-    override fun getCoordinatesByCity(cityName: String, appid: String): Call<CoordinatesResult> {
-        TODO("not implemented")
+    override suspend fun getCoordinatesByCity(cityName: String, appid: String): CoordinatesResult {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getWeatherByCoordinates(latitudes: Double, longitudes: Double, appid: String): Call<WeatherInfoResult> {
-        TODO("not implemented")
+    override suspend fun getWeatherByCoordinates(latitudes: Double, longitudes: Double, appid: String): WeatherInfoResult {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }
