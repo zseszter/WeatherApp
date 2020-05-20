@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import com.example.weatherapphomework.R
 import com.example.weatherapphomework.injector
 import com.example.weatherapphomework.model.info.ForecastInfo
@@ -37,7 +37,7 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
 
         weatherPresenter.attachScreen(this)
 
-        if (!isOnline(this)) showNetworkError()
+        if (!isOnline(this)) showNetworkState()
 
         lat = intent.extras?.getDouble(LAT_KEY)
         lon = intent.extras?.getDouble(LON_KEY)
@@ -62,7 +62,7 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         runOnUiThread {
             if (temp != null) {
                 val roundedTemp = temp.plus(CityActivity.KELVIN_CONST).toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
-                temperature_tv?.text = roundedTemp.toString()
+                temperature_tv?.text = roundedTemp.toString() + "°"
             }
         }
     }
@@ -80,7 +80,7 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
                 "rain" -> img = R.drawable.rain
                 "thunderstorm" -> img = R.drawable.rain
                 "snow" -> img = R.drawable.cloud
-                "mist" -> img = R.drawable.cloud
+                "mist" -> img = R.drawable.mist
                 else -> img = R.drawable.clear
             }
             weather_img.setImageResource(img)
@@ -100,19 +100,21 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
         }
     }
 
-    private fun showNetworkError() {
-        with(AlertDialog.Builder(context)) {
-            setTitle("No internet connection")
-            setMessage("The most recently retrieved data will be displayed")
-            setNegativeButton("Cancel", null)
-            setPositiveButton("Ok", null)
-            show()
-        }
+    private fun showNetworkState() {
+        if (!isOnline(context)) {
+            network_img.visibility = View.VISIBLE
+        } else network_img.visibility = View.GONE
+
     }
 
     fun isOnline(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         return capabilities != null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showNetworkState()
     }
 }

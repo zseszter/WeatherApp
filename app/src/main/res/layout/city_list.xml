@@ -6,8 +6,9 @@
     android:name="CityList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.city.CityActivity"
-    tools:listitem="@layout/city_list_item" />
+    tools:listitem="@layout/city_list_item"
+    android:background="#E2E2E2"/>

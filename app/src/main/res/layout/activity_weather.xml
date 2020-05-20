@@ -13,34 +13,46 @@
         android:layout_height="595dp"
         android:layout_marginBottom="156dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/temperature_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="40dp"
-
-        android:textColor="#FFFFFF"
+        android:textColor="#3C4257"
         android:textSize="56sp"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="@+id/weather_img"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/network_img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wifi_off"
+        android:tint="#C05454"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_tv"
+        app:layout_constraintStart_toEndOf="@+id/temperature_tv"
+        app:layout_constraintTop_toTopOf="@+id/temperature_tv" />
 
     <TextView
         android:id="@+id/weather_info_string_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:textColor="#FFFFFF"
+        android:layout_marginStart="40dp"
+        android:textColor="#3C4257"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="normal"
         app:layout_constraintStart_toStartOf="@+id/weather_img"
-        app:layout_constraintTop_toBottomOf="@+id/temperature_tv"/>
+        app:layout_constraintTop_toBottomOf="@+id/temperature_tv" />
 
     <ListView
         android:id="@+id/forecast_list"

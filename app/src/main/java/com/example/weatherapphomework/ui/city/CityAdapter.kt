@@ -32,7 +32,7 @@ class CityAdapter constructor(
         val temp = city.temperature!!.plus(CityActivity.KELVIN_CONST).toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
 
         holder.cityName.text = city.name
-        holder.temperature.text = "${temp.toString()} °C"
+        holder.temperature.text = "${temp.toString()}°C"
 
         holder.card.setOnClickListener {
             city.name?.let {
