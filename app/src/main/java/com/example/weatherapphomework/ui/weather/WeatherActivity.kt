@@ -95,8 +95,21 @@ class WeatherActivity : AppCompatActivity(), WeatherScreen {
     }
 
     override fun loadForecast(forecast: List<ForecastInfo>?) {
-        runOnUiThread {
+        /*runOnUiThread {
             Toast.makeText(this,"Forecast loaded", Toast.LENGTH_SHORT).show()
+        }*/
+
+        val tempList = forecast?.map {
+            it.temp?.day!!.plus(CityActivity.KELVIN_CONST).toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
+        }
+        runOnUiThread {
+            forecast01.setText(tempList?.get(0).toString())
+            forecast02.setText(tempList?.get(1).toString())
+            forecast03.setText(tempList?.get(2).toString())
+            forecast04.setText(tempList?.get(3).toString())
+            forecast05.setText(tempList?.get(4).toString())
+            forecast06.setText(tempList?.get(5).toString())
+            forecast07.setText(tempList?.get(6).toString())
         }
     }
 
