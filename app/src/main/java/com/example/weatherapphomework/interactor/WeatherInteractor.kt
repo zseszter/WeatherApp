@@ -1,52 +1,53 @@
 package com.example.weatherapphomework.interactor
 
-import android.util.Log
+import android.content.Context
+import android.net.ConnectivityManager
 import com.example.weatherapphomework.db.WeatherDao
+import com.example.weatherapphomework.db.entities.CityEntity
 import com.example.weatherapphomework.db.entities.Forecast
-import com.example.weatherapphomework.db.entities.ForecastEntity
-import com.example.weatherapphomework.db.entities.WeatherInfoEntity
-import com.example.weatherapphomework.interactor.event.GetWeatherEvent
-import com.example.weatherapphomework.model.DummyContent
+import com.example.weatherapphomework.model.WeatherInfoResult
+import com.example.weatherapphomework.model.info.ForecastInfo
+import com.example.weatherapphomework.model.info.TemperatureInfo
+import com.example.weatherapphomework.model.info.WeatherInfo
+import com.example.weatherapphomework.model.info.WeatherStringInfo
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
 import javax.inject.Inject
-import org.greenrobot.eventbus.EventBus
 
 class WeatherInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao){
 
-    //Dummy
-    fun getDummyWeatherInfo(dummyItem: DummyContent): DummyContent {
-        return dummyItem
-    }
+    suspend fun getWeatherInfo(context: Context, cityName: String, lat: Double, lon: Double) : WeatherInfoResult {
 
-    fun getWeatherInfo(lat: Double, lon: Double) {
+        val response: WeatherInfoResult
+        //Log.d("ASDASD", "coordinates: $lat, $lon")
+        val cityResult = weatherDao.getCityByName(cityName)
+        //Log.d("ASDASD", "result: " + cityResult.toString())
 
-        val event = GetWeatherEvent()
+        if (isOnline(context)) {
+            response = weatherApi.getWeatherByCoordinates(lat, lon, NetworkConfig.API_KEY)
 
-        try {
-            val weatherQueryCall = weatherApi.getWeatherByCoordinates(lat, lon, NetworkConfig.API_KEY)
-            val response = weatherQueryCall.execute()
-            Log.d("Response", response.body().toString())
-
-            if (response.code() != 200) {
-                throw Exception("Result code is not 200")
+            val forecast = response.daily?.map {
+                it.temp?.day
             }
 
-            event.code = response.code()
-            event.currentWeatherInfo = response.body().currentWeatherInfo
-            event.forecast = response.body()?.forecast
+            weatherDao.updateCity(CityEntity(cityResult.id, cityResult.name, response.current?.temp, response.current?.weather?.get(0)?.description, lat, lon, forecast = Forecast(forecast)))
 
-            val cityId = weatherDao.getCityIdByName(response.body()?.currentWeatherInfo?.cityName)
-            val temp = response.body()?.currentWeatherInfo?.temperature
-            val weatherString = response.body()?.currentWeatherInfo?.weatherString
+        } else {
 
-            weatherDao.addWeatherInfo(WeatherInfoEntity(cityId = cityId, temperature = temp, weatherString = weatherString))
-            weatherDao.addForecast(ForecastEntity(cityId = cityId, forecast = Forecast(response.body()?.forecast)))
+            val forecastTempList: ArrayList<ForecastInfo> = ArrayList()
+            cityResult.forecast?.forecastList?.forEach {
+                forecastTempList.add(ForecastInfo(null, TemperatureInfo(it), WeatherStringInfo(cityResult.weatherString)))
+            }
 
-            EventBus.getDefault().post(event)
-        } catch (e: Exception) {
-            event.throwable = e
-            EventBus.getDefault().post(event)
+            response = WeatherInfoResult(lat, lon, WeatherInfo(temp = cityResult.temperature, weather = listOf(WeatherStringInfo(cityResult.weatherString))), daily = forecastTempList)
         }
+
+        return response
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return capabilities != null
     }
 }

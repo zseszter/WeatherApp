@@ -1,9 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.weather.WeatherActivity">
+
+    <ImageView
+        android:id="@+id/weather_img"
+        android:layout_width="match_parent"
+        android:layout_height="595dp"
+        android:layout_marginBottom="156dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/temperature_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:textColor="#3C4257"
+        android:textSize="56sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/weather_img"
+        app:layout_constraintStart_toStartOf="@+id/forecast01" />
+
+    <ImageView
+        android:id="@+id/network_img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wifi_off"
+        android:tint="#C25757"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_tv"
+        app:layout_constraintStart_toEndOf="@+id/temperature_tv"
+        app:layout_constraintTop_toTopOf="@+id/temperature_tv" />
+
+    <TextView
+        android:id="@+id/weather_info_string_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="24sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/temperature_tv"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_tv" />
+
+    <TextView
+        android:id="@+id/forecast01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forecast02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
+
+    <TextView
+        android:id="@+id/forecast02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forecast03"
+        app:layout_constraintStart_toEndOf="@+id/forecast01"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
+
+    <TextView
+        android:id="@+id/forecast03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forecast04"
+        app:layout_constraintStart_toEndOf="@+id/forecast02"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
+
+    <TextView
+        android:id="@+id/forecast04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forecast05"
+        app:layout_constraintStart_toEndOf="@+id/forecast03"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
+
+    <TextView
+        android:id="@+id/forecast05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forecast06"
+        app:layout_constraintStart_toEndOf="@+id/forecast04"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
+
+    <TextView
+        android:id="@+id/forecast06"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/forecast05"
+        app:layout_constraintEnd_toStartOf="@+id/forecast07"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
+
+    <TextView
+        android:id="@+id/forecast07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3C4257"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/forecast06"
+        app:layout_constraintTop_toBottomOf="@+id/weather_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

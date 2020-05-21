@@ -1,13 +1,11 @@
 package com.example.weatherapphomework.ui.city
 
-import com.example.weatherapphomework.model.DummyContent
+import com.example.weatherapphomework.model.City
+import com.example.weatherapphomework.model.info.CoordinateInfo
 
 interface CityScreen {
 
-    //Dummy
-    fun showDetails(item: DummyContent)
+    fun loadCities(cityList: List<City>)
 
-    fun updateCityList(cityName: String?, lat: Double?, lon: Double?)
-
-    fun showNetworkError(msg: String)
+    fun showDetails(cityName: String, coords: CoordinateInfo)
 }

@@ -1,8 +1,13 @@
 package com.example.weatherapphomework.model
 
+import com.example.weatherapphomework.model.info.CoordinateInfo
+import com.example.weatherapphomework.model.info.MainWeatherInfo
+import com.example.weatherapphomework.model.info.WeatherStringInfo
+
 data class CoordinatesResult(
-        var cityName: String? = null,
-        var lat: Double? = null,
-        var lon: Double? = null,
-        var temperature: Double? = null
+        var name: String? = null,
+        var coord: CoordinateInfo? = null,
+        var weather: List<WeatherStringInfo>? = null,
+        var main: MainWeatherInfo? = null,
+        var dt: Int? = null
 )

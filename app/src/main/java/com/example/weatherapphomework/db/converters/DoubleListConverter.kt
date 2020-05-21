@@ -4,13 +4,10 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
-import java.util.Collections.emptyList
-
-
 
 class DoubleListConverter {
 
-    val gson = Gson()
+    private val gson = Gson()
 
     @TypeConverter
     fun stringToSomeObjectList(data: String?): List<Double> {

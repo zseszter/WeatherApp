@@ -1,12 +1,8 @@
 package com.example.weatherapphomework.db
 
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 import com.example.weatherapphomework.db.entities.CityEntity
-import com.example.weatherapphomework.db.entities.ForecastEntity
-import com.example.weatherapphomework.db.entities.WeatherInfoEntity
 
 @Dao
 interface WeatherDao {
@@ -14,22 +10,23 @@ interface WeatherDao {
     @Query("SELECT * FROM cities")
     fun getAllCities(): List<CityEntity>
 
-    @Query("SELECT * FROM cities WHERE cityName=:name")
-    fun getCityIdByName(name: String?): Long
+    @Query("SELECT * FROM cities WHERE name=:name")
+    fun getCityByName(name: String?): CityEntity
 
     @Insert(onConflict = REPLACE)
     fun addCity(cityEntity: CityEntity): Long
 
-    @Query("SELECT * FROM weatherInfo WHERE id=:id")
-    fun getWeatherInfoByCityId(id: Int): WeatherInfoEntity
+    @Query("SELECT * FROM cities WHERE id=:id")
+    fun getCity(id: Long): CityEntity
 
-    @Insert(onConflict = REPLACE)
-    fun addWeatherInfo(weatherInfoEntity: WeatherInfoEntity): Long
+    @Query("SELECT * FROM cities WHERE id=:id")
+    fun getForecastByCityId(id: Long): CityEntity
 
-    @Query("SELECT * FROM forecast WHERE id=:id")
-    fun getForecastByCityId(id: Int): ForecastEntity
+    @Update(onConflict = REPLACE)
+    fun updateCity(cityEntity: CityEntity)
 
-    @Insert(onConflict = REPLACE)
-    fun addForecast(forecastEntity: ForecastEntity): Long
+    @Query("SELECT * FROM cities WHERE lat=:lat AND lon=:lon")
+    fun getCityByCoordinates(lat: Double, lon: Double): List<CityEntity>?
+
 
 }

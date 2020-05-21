@@ -1,50 +1,70 @@
 package com.example.weatherapphomework.interactor
 
-import android.util.Log
+import android.content.Context
+import android.net.ConnectivityManager
 import com.example.weatherapphomework.db.WeatherDao
 import com.example.weatherapphomework.db.entities.CityEntity
-import com.example.weatherapphomework.interactor.event.GetCoordinatesByCityEvent
-import com.example.weatherapphomework.model.DummyContent
+import com.example.weatherapphomework.db.entities.Forecast
+import com.example.weatherapphomework.model.CoordinatesResult
+import com.example.weatherapphomework.model.info.CoordinateInfo
+import com.example.weatherapphomework.model.info.MainWeatherInfo
+import com.example.weatherapphomework.model.info.WeatherStringInfo
 import com.example.weatherapphomework.network.NetworkConfig
 import com.example.weatherapphomework.network.WeatherApi
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 class CityInteractor @Inject constructor(private var weatherApi: WeatherApi, private var weatherDao: WeatherDao) {
 
-    //Dummy
-    fun getDummyCoordinates(item: DummyContent): DummyContent {
-        return item
+    suspend fun getCoordinates(context: Context, cityName: String) : CoordinatesResult {
+
+        val response: CoordinatesResult
+
+        if (isOnline(context)) {
+            response = weatherApi.getCoordinatesByCity(cityName, NetworkConfig.API_KEY)
+
+        } else {
+            val city = weatherDao.getCityByName(cityName)
+            response = CoordinatesResult(cityName, CoordinateInfo(city.lat, city.lon), listOf(WeatherStringInfo(city.weatherString)), MainWeatherInfo(city.temperature))
+        }
+
+        return response
     }
 
-    fun getCoordinates(cityName: String) {
-
-        val event = GetCoordinatesByCityEvent()
-
-        try {
-            val coordinatesQueryCall = weatherApi.getCoordinatesByCity(cityName, NetworkConfig.API_KEY)
-            val response = coordinatesQueryCall.execute()
-            Log.d("Response", response.body().toString())
-
-            if (response.code() != 200) {
-                throw Exception("Result code is not 200")
-            }
-
-            event.code = response.code()
-            event.cityName = response.body()?.cityName
-            event.lat = response.body()?.lat
-            event.lon = response.body()?.lon
-            event.temperature = response.body()?.temperature
-
-            event.cityId = weatherDao.addCity(CityEntity(
-                    cityName = response.body()?.cityName,
-                    lat = response.body()?.lat,
-                    lon = response.body()?.lon))
-
-            EventBus.getDefault().post(event)
-        } catch (e: Exception) {
-            event.throwable = e
-            EventBus.getDefault().post(event)
+    //suspend might be missing
+    fun getCityList() : List<CityEntity> {
+        return weatherDao.getAllCities().map {
+            CityEntity(it.id, it.name, it.temperature)
         }
+    }
+
+    suspend fun saveCity(context: Context, cityName: String) {
+        try {
+            if (isOnline(context = context)) {
+                val coordResult = weatherApi.getCoordinatesByCity(cityName, NetworkConfig.API_KEY)
+                val weatherResult = weatherApi.getWeatherByCoordinates(coordResult.coord?.lat!!, coordResult.coord?.lon!!, NetworkConfig.API_KEY)
+
+                val forecast = weatherResult.daily?.map {
+                    it.temp?.day!!
+                }
+
+                weatherDao.addCity(CityEntity(name = cityName, temperature = weatherResult.current?.temp!!, weatherString = weatherResult.current?.weather?.get(0)?.description, lat = coordResult.coord?.lat, lon = coordResult.coord?.lon, forecast = Forecast(forecast)))
+
+            } else {
+                weatherDao.addCity(CityEntity(name = cityName))
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    //suspend might be missing
+    fun updateCity(city: CityEntity) {
+        weatherDao.updateCity(city)
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return capabilities != null
     }
 }
