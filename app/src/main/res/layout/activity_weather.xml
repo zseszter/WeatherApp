@@ -36,7 +36,7 @@
         android:layout_marginStart="20dp"
         android:scaleType="centerCrop"
         android:src="@drawable/wifi_off"
-        android:tint="#C05454"
+        android:tint="#C25757"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/temperature_tv"
         app:layout_constraintStart_toEndOf="@+id/temperature_tv"
